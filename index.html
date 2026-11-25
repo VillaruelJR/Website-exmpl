@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACT Lost and Found System</title>
+  <script src="js/guard.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="sticky top-0 z-50 bg-act-blue shadow-md">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+      <a href="#home" class="flex items-center gap-3">
+        <span class="bg-act-yellow text-act-blue font-extrabold text-xl w-10 h-10 flex items-center justify-center rounded-lg">ACT</span>
+        <span class="text-white font-bold text-lg leading-tight">Lost &amp; Found<span class="block text-xs font-normal text-blue-200">Campus Item Recovery System</span></span>
+      </a>
+
+      <ul class="hidden md:flex items-center gap-1 text-sm font-medium">
+        <li><a href="#home" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">Home</a></li>
+        <li><a href="#items" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">Found Items</a></li>
+        <li><a href="#report" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">Report</a></li>
+        <li><a href="#how" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">How It Works</a></li>
+        <li><a href="#contact" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">Contact</a></li>
+        <li><button id="logoutBtn" type="button" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">Log Out</button></li>
+        <li><a href="#report" class="ml-2 px-4 py-2 rounded-md bg-act-yellow text-act-blue font-semibold hover:bg-act-gold transition">Report an Item</a></li>
+      </ul>
+
+      <button id="menuBtn" class="md:hidden text-white p-2 rounded hover:bg-act-dark" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </nav>
+    <ul id="mobileMenu" class="hidden md:hidden flex-col bg-act-dark text-white text-sm font-medium px-4 pb-3">
+      <li><a href="#home" class="block py-2 hover:text-act-yellow">Home</a></li>
+      <li><a href="#items" class="block py-2 hover:text-act-yellow">Found Items</a></li>
+      <li><a href="#report" class="block py-2 hover:text-act-yellow">Report</a></li>
+      <li><a href="#how" class="block py-2 hover:text-act-yellow">How It Works</a></li>
+      <li><a href="#contact" class="block py-2 hover:text-act-yellow">Contact</a></li>
+      <li><button id="logoutBtnM" type="button" class="block py-2 hover:text-act-yellow">Log Out</button></li>
+    </ul>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section id="home" class="bg-gradient-to-br from-act-blue to-act-dark text-white">
+    <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+      <p class="inline-block bg-act-yellow text-act-blue text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">ACT Lost &amp; Found</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Lost something on campus?<br class="hidden md:block" /> <span class="text-act-yellow">Let's help you find it.</span></h1>
+      <p class="mt-4 text-blue-100 max-w-2xl mx-auto">Search items turned in at the Lost &amp; Found office, report a lost item, or hand in something you found.</p>
+
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+        <a href="#report" data-tab="lost" class="tab-link px-6 py-3 rounded-lg border-2 border-white font-semibold hover:bg-white hover:text-act-blue transition">I Lost an Item</a>
+        <a href="#report" data-tab="found" class="tab-link px-6 py-3 rounded-lg border-2 border-act-yellow text-act-yellow font-semibold hover:bg-act-yellow hover:text-act-blue transition">I Found an Item</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOUND ITEMS ========== -->
+  <section id="items" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold text-act-blue">Found Items</h2>
+      <div class="w-16 h-1 bg-act-yellow mx-auto mt-2 rounded"></div>
+      <p class="text-gray-500 mt-3">Browse items currently kept at the Lost &amp; Found office.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex flex-col md:flex-row gap-3 mb-8">
+      <input id="searchInput" type="text" placeholder="Search by item name or location..." class="flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-act-blue" />
+      <select id="categoryFilter" class="px-4 py-3 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-act-blue">
+        <option value="all">All Categories</option>
+        <option>IDs &amp; Cards</option>
+        <option>Bags</option>
+        <option>Electronics</option>
+        <option>Accessories</option>
+        <option>Books &amp; Supplies</option>
+        <option>Clothing</option>
+        <option>Others</option>
+      </select>
+      <select id="statusFilter" class="px-4 py-3 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-act-blue">
+        <option value="all">All Status</option>
+        <option>Unclaimed</option>
+        <option>Claimed</option>
+      </select>
+    </div>
+
+    <!-- Cards -->
+    <div id="itemGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <p id="noResults" class="hidden text-center text-gray-500 py-10">No items match your search. Try different keywords or <a href="#report" class="text-act-blue font-semibold underline">report your lost item</a>.</p>
+  </section>
+
+  <!-- ========== REPORT FORMS ========== -->
+  <section id="report" class="bg-act-light py-16">
+    <div class="max-w-3xl mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold text-act-blue">Report an Item</h2>
+        <div class="w-16 h-1 bg-act-yellow mx-auto mt-2 rounded"></div>
+        <p class="text-gray-500 mt-3">Choose what you need to report and fill out the form.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <!-- Tabs -->
+        <div class="grid grid-cols-2">
+          <button id="tab-lost" class="tab-btn py-4 font-semibold bg-act-blue text-white transition">I Lost Something</button>
+          <button id="tab-found" class="tab-btn py-4 font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 transition">I Found Something</button>
+        </div>
+
+        <form id="reportForm" class="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="name">Full Name</label>
+            <input id="name" required type="text" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="studentId">Student / Employee ID</label>
+            <input id="studentId" required type="text" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="email">Email / Contact No.</label>
+            <input id="email" required type="text" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="category">Category</label>
+            <select id="category" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue">
+              <option>IDs &amp; Cards</option><option>Bags</option><option>Electronics</option><option>Accessories</option><option>Books &amp; Supplies</option><option>Clothing</option><option>Others</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1" for="itemName">Item Name</label>
+            <input id="itemName" required type="text" placeholder="e.g. Blue backpack" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1" for="location" id="locationLabel">Where did you lose it?</label>
+            <input id="location" required type="text" placeholder="e.g. Library, Room 204" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="date" id="dateLabel">Date Lost</label>
+            <input id="date" required type="date" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="time" id="timeLabel">Time Lost (approx.)</label>
+            <input id="time" required type="time" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1" for="desc">Description</label>
+            <textarea id="desc" rows="3" required placeholder="Color, brand, size, marks, contents..." class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue"></textarea>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold mb-1" for="photo">Photo (optional)</label>
+            <input id="photo" type="file" accept="image/*" class="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-act-yellow file:text-act-blue file:font-semibold hover:file:bg-act-gold" />
+          </div>
+          <div class="md:col-span-2">
+            <button type="submit" id="submitBtn" class="w-full py-3 rounded-lg bg-act-blue text-white font-bold hover:bg-act-dark transition">Submit Lost Item Report</button>
+          </div>
+          <p id="successMsg" class="hidden md:col-span-2 text-center bg-green-50 text-green-700 border border-green-200 rounded-lg p-3 font-medium"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW IT WORKS ========== -->
+  <section id="how" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl md:text-3xl font-bold text-act-blue">How It Works</h2>
+      <div class="w-16 h-1 bg-act-yellow mx-auto mt-2 rounded"></div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition text-center">
+        <div class="w-12 h-12 mx-auto rounded-full bg-act-yellow text-act-blue font-extrabold flex items-center justify-center text-lg mb-3">1</div>
+        <h3 class="font-bold text-act-blue mb-1">Search or Report</h3>
+        <p class="text-sm text-gray-500">Look through found items or submit a lost item report.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition text-center">
+        <div class="w-12 h-12 mx-auto rounded-full bg-act-yellow text-act-blue font-extrabold flex items-center justify-center text-lg mb-3">2</div>
+        <h3 class="font-bold text-act-blue mb-1">Match Found</h3>
+        <p class="text-sm text-gray-500">Staff compare your report with items turned in.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition text-center">
+        <div class="w-12 h-12 mx-auto rounded-full bg-act-yellow text-act-blue font-extrabold flex items-center justify-center text-lg mb-3">3</div>
+        <h3 class="font-bold text-act-blue mb-1">Verify Ownership</h3>
+        <p class="text-sm text-gray-500">Visit the office with your school ID and describe the item.</p>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition text-center">
+        <div class="w-12 h-12 mx-auto rounded-full bg-act-yellow text-act-blue font-extrabold flex items-center justify-center text-lg mb-3">4</div>
+        <h3 class="font-bold text-act-blue mb-1">Claim Your Item</h3>
+        <p class="text-sm text-gray-500">Sign the claim form and take your item home.</p>
+      </div>
+    </div>
+
+    <!-- Claim reminders -->
+    <div class="mt-10 bg-act-blue text-white rounded-xl p-6 md:p-8 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="font-bold text-act-yellow text-lg mb-2">What to Bring When Claiming</h3>
+        <ul class="list-disc list-inside text-sm space-y-1 text-blue-100">
+          <li>Valid school ID or government ID</li>
+          <li>Proof of ownership (photo, receipt, or details)</li>
+          <li>Reference number from your report</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-act-yellow text-lg mb-2">Good to Know</h3>
+        <ul class="list-disc list-inside text-sm space-y-1 text-blue-100">
+          <li>Items are kept for 60 days</li>
+          <li>Unclaimed items may be donated or disposed of</li>
+          <li>Valuables are stored securely in the office</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="bg-act-light py-16">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-bold text-act-blue text-center">Frequently Asked Questions</h2>
+      <div class="w-16 h-1 bg-act-yellow mx-auto mt-2 mb-8 rounded"></div>
+      <div class="space-y-3">
+        <details class="bg-white rounded-lg shadow p-4 group hover:shadow-md transition">
+          <summary class="font-semibold text-act-blue cursor-pointer">Can someone else claim my item for me?</summary>
+          <p class="text-sm text-gray-600 mt-2">Yes, with an authorization letter, a copy of your ID, and their own valid ID.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-4 hover:shadow-md transition">
+          <summary class="font-semibold text-act-blue cursor-pointer">How long are found items kept?</summary>
+          <p class="text-sm text-gray-600 mt-2">Items are stored for 60 days from the date they were turned in.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-4 hover:shadow-md transition">
+          <summary class="font-semibold text-act-blue cursor-pointer">I don't see my item. What should I do?</summary>
+          <p class="text-sm text-gray-600 mt-2">Submit a lost item report. We will contact you if a matching item is turned in.</p>
+        </details>
+        <details class="bg-white rounded-lg shadow p-4 hover:shadow-md transition">
+          <summary class="font-semibold text-act-blue cursor-pointer">Where do I hand in an item I found?</summary>
+          <p class="text-sm text-gray-600 mt-2">Bring it to the Lost &amp; Found office or any security guard, then fill out the "I Found Something" form.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact" class="max-w-6xl mx-auto px-4 py-16">
+    <div class="text-center mb-10">
+      <h2 class="text-2xl md:text-3xl font-bold text-act-blue">Visit or Contact Us</h2>
+      <div class="w-16 h-1 bg-act-yellow mx-auto mt-2 rounded"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-xl transition">
+        <p class="text-3xl mb-2">📍</p>
+        <h3 class="font-bold text-act-blue">Office Location</h3>
+        <p class="text-sm text-gray-500 mt-1">Student Affairs Office<br />Ground Floor, Main Building</p>
+      </div>
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-xl transition">
+        <p class="text-3xl mb-2">🕒</p>
+        <h3 class="font-bold text-act-blue">Office Hours</h3>
+        <p class="text-sm text-gray-500 mt-1">Monday – Saturday<br />8:00 AM – 5:00 PM</p>
+      </div>
+      <div class="bg-white rounded-xl shadow p-6 hover:shadow-xl transition">
+        <p class="text-3xl mb-2">✉️</p>
+        <h3 class="font-bold text-act-blue">Get in Touch</h3>
+        <p class="text-sm text-gray-500 mt-1">lostandfound@act.edu.ph<br />(02) 1234-5678</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-act-dark text-blue-200">
+    <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+      <p class="font-semibold text-white"><span class="text-act-yellow">ACT</span> Lost &amp; Found System</p>
+      <ul class="flex gap-5">
+        <li><a href="#items" class="hover:text-act-yellow transition">Found Items</a></li>
+        <li><a href="#report" class="hover:text-act-yellow transition">Report</a></li>
+        <li><a href="#how" class="hover:text-act-yellow transition">How It Works</a></li>
+        <li><a href="#contact" class="hover:text-act-yellow transition">Contact</a></li>
+      </ul>
+      <p>&copy; 2026 ACT. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPT ========== -->
+  <script src="js/data.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>

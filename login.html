@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACT Lost and Found – Log In</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-slate-100 text-gray-800 font-sans antialiased min-h-screen flex items-center justify-center px-4 py-10">
+
+  <main class="w-full max-w-md">
+    <div class="bg-white rounded-lg shadow-lg p-8 sm:p-10">
+
+      <!-- Role switch -->
+      <div class="grid grid-cols-2 bg-gray-100 rounded-lg p-1 mb-8 text-sm font-semibold">
+        <button id="btnStudent" type="button" class="py-2 rounded-md bg-act-blue text-white transition">Student Log In</button>
+        <button id="btnAdmin" type="button" class="py-2 rounded-md text-gray-600 hover:text-act-blue transition">Admin Log In</button>
+      </div>
+
+      <!-- Brand -->
+      <div class="text-center mb-8">
+        <span class="inline-flex bg-act-yellow text-act-blue font-extrabold text-2xl w-14 h-14 items-center justify-center rounded-xl">ACT</span>
+        <h1 class="mt-3 text-2xl font-extrabold tracking-wide text-act-blue">LOST &amp; FOUND</h1>
+        <p id="roleTag" class="text-lg font-extrabold tracking-widest text-act-gold -mt-1">STUDENT</p>
+      </div>
+
+      <!-- ===== STUDENT LOGIN (underline style) ===== -->
+      <form id="studentForm" class="space-y-6">
+        <div class="flex items-center gap-3 border-b border-gray-400 focus-within:border-act-blue transition pb-2">
+          <svg class="w-5 h-5 text-gray-500 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.4 0-8 2.2-8 5v3h16v-3c0-2.8-3.6-5-8-5z"/></svg>
+          <input id="sUser" required type="text" placeholder="Student ID / Username" class="w-full text-sm bg-transparent focus:outline-none placeholder-gray-500" />
+        </div>
+        <div>
+          <div class="flex items-center gap-3 border-b border-gray-400 focus-within:border-act-blue transition pb-2">
+            <svg class="w-5 h-5 text-gray-500 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6 10V8a6 6 0 1112 0v2h1a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V11a1 1 0 011-1h1zm2 0h8V8a4 4 0 10-8 0v2z"/></svg>
+            <input id="sPass" required type="password" placeholder="Password" class="w-full text-sm bg-transparent focus:outline-none placeholder-gray-500" />
+            <button type="button" class="eye text-gray-700 hover:text-act-blue" data-target="sPass" aria-label="Show password">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="text-right mt-2"><a href="#" class="text-sm text-act-blue hover:underline">Forgot Password?</a></div>
+        </div>
+        <p id="studentErr" class="hidden text-sm text-red-600 text-center">Incorrect Student ID or password.</p>
+        <button class="w-full py-3 rounded-md bg-act-blue text-white font-bold text-lg hover:bg-act-dark transition">Login</button>
+      </form>
+
+      <!-- ===== ADMIN LOGIN (boxed style) ===== -->
+      <form id="adminForm" class="hidden space-y-4">
+        <div>
+          <label class="block text-sm font-semibold mb-1" for="aUser">Username</label>
+          <input id="aUser" required type="text" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1" for="aPass">Password</label>
+          <div class="relative">
+            <input id="aPass" required type="password" class="w-full px-4 py-2.5 pr-11 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+            <button type="button" class="eye absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-act-blue" data-target="aPass" aria-label="Show password">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <p id="adminErr" class="hidden text-sm text-red-600">Incorrect username or password.</p>
+        <button class="w-full py-3 rounded-lg bg-act-blue text-white font-bold hover:bg-act-dark transition">Log In as Admin</button>
+      </form>
+
+      <!-- Footer note -->
+      <div id="studentNote" class="text-center text-sm mt-8 pt-6 border-t border-gray-100">
+        <p class="font-semibold">Students only</p>
+        <p class="text-gray-600">Log in with your Student ID and password to search, report, and claim lost items.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

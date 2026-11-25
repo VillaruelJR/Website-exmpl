@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACT Lost and Found – Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+  <!-- ========== DASHBOARD ========== -->
+  <div id="dashView" class="hidden">
+    <header class="bg-act-blue shadow-md">
+      <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+        <div class="flex items-center gap-3">
+          <span class="bg-act-yellow text-act-blue font-extrabold text-xl w-10 h-10 flex items-center justify-center rounded-lg">ACT</span>
+          <span class="text-white font-bold">Admin Dashboard</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm font-medium">
+          <a href="index.html" class="px-3 py-2 rounded-md text-white hover:bg-act-dark hover:text-act-yellow transition">View Website</a>
+          <button id="logoutBtn" class="px-4 py-2 rounded-md bg-act-yellow text-act-blue font-semibold hover:bg-act-gold transition">Log Out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <div class="bg-white rounded-xl shadow p-5 text-center border-b-4 border-act-yellow"><p id="sTotal" class="text-3xl font-extrabold text-act-blue">0</p><p class="text-sm text-gray-500">Total Reports</p></div>
+        <div class="bg-white rounded-xl shadow p-5 text-center border-b-4 border-act-yellow"><p id="sLost" class="text-3xl font-extrabold text-act-blue">0</p><p class="text-sm text-gray-500">Lost Reports</p></div>
+        <div class="bg-white rounded-xl shadow p-5 text-center border-b-4 border-act-yellow"><p id="sFound" class="text-3xl font-extrabold text-act-blue">0</p><p class="text-sm text-gray-500">Found Reports</p></div>
+        <div class="bg-white rounded-xl shadow p-5 text-center border-b-4 border-act-yellow"><p id="sPending" class="text-3xl font-extrabold text-act-blue">0</p><p class="text-sm text-gray-500">Pending</p></div>
+        <div class="bg-white rounded-xl shadow p-5 text-center border-b-4 border-act-yellow col-span-2 md:col-span-1"><p id="sRate" class="text-3xl font-extrabold text-act-blue">0%</p><p class="text-sm text-gray-500">Return Rate</p></div>
+      </div>
+
+      <!-- Reports -->
+      <div class="bg-white rounded-xl shadow">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-5 border-b">
+          <div>
+            <h2 class="text-xl font-bold text-act-blue">New Lost &amp; Found Reports</h2>
+            <p class="text-sm text-gray-500">Reports just submitted by students</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input id="q" type="text" placeholder="Search name, item, reference..." class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue" />
+            <select id="typeF" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue">
+              <option value="all">Lost &amp; Found</option><option value="lost">Lost only</option><option value="found">Found only</option>
+            </select>
+            <select id="statusF" class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-act-blue">
+              <option value="all">All Status</option><option>Pending</option><option>Matched</option><option>Returned</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-act-light text-act-blue">
+              <tr>
+                <th class="px-4 py-3">Ref No.</th><th class="px-4 py-3">Type</th><th class="px-4 py-3">Reported By</th>
+                <th class="px-4 py-3">Item</th><th class="px-4 py-3">Location</th><th class="px-4 py-3">Date &amp; Time</th>
+                <th class="px-4 py-3">Status</th><th class="px-4 py-3"></th>
+              </tr>
+            </thead>
+            <tbody id="rows" class="divide-y"></tbody>
+          </table>
+        </div>
+        <p id="empty" class="hidden text-center text-gray-500 py-10">No reports yet. Reports submitted on the website will appear here.</p>
+      </div>
+
+      <!-- Space between new reports and the office list -->
+      <div class="h-12 md:h-16"></div>
+
+      <!-- Found items list (same items shown to students) -->
+      <div class="bg-white rounded-xl shadow">
+        <div class="flex items-center justify-between gap-3 p-5 border-b">
+          <div>
+            <h2 class="text-xl font-bold text-act-blue">Lost &amp; Found Items List</h2>
+            <p class="text-sm text-gray-500">Items shown to students. Add them from the reports above.</p>
+          </div>
+          <span id="foundCount" class="shrink-0 text-xs font-semibold px-3 py-1 rounded-full bg-act-yellow text-act-blue"></span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-act-light text-act-blue">
+              <tr>
+                <th class="px-4 py-3">Item</th><th class="px-4 py-3">Type</th><th class="px-4 py-3">Category</th>
+                <th class="px-4 py-3">Location</th><th class="px-4 py-3">Date</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="foundRows" class="divide-y"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Detail modal -->
+    <div id="modal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-lg font-bold text-act-blue">Report Details</h3>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+        </div>
+        <div id="modalPhoto" class="mb-4"></div>
+        <dl id="modalBody" class="text-sm space-y-2"></dl>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
